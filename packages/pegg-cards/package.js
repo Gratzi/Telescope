@@ -20,6 +20,8 @@ Package.onUse(function(api) {
     ]);
   api.mainModule('pegg-cards.js');
   api.addFiles('PeggCardPostsPage.jsx', 'client');
+  api.addFiles('pegg-parse.js', 'server');
+  api.export('PeggParse');
 });
 
 Package.onTest(function(api) {

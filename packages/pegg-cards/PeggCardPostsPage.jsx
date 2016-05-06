@@ -6,6 +6,9 @@ const ListContainer = SmartContainers.ListContainer;
 import Core from "meteor/nova:core";
 const ModalTrigger = Core.ModalTrigger;
 
+import PeggParse from 'meteor/pegg-cards:pegg-parse'
+parse = new PeggParse()
+
 const PeggCardPostsPage = ({document, currentUser}) => {
   
   ({CommentsList, CommentsNew, PostsItem, PostsCategories, SocialShare, Vote, PostsStats, HeadTags, AccountsForm} = Telescope.components);
