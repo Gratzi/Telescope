@@ -1,16 +1,22 @@
-const API_KEY = '0kR4j5fdjF4GpwitwZWvWeANkbWxb0z2FpkMZrLt'
-const JS_KEY = 'zi4GohMKvjzNLSVVSZKC5NJVtMQr727oHJUYKzIz'
-const MASTER_KEY = '7O5HajuGhoGMUBM0QrqmPDpO71xUkAG4yKnFuTno'
+const PARSE_API_KEY = process.env.PARSE_API_KEY
+const PARSE_JS_KEY = process.env.PARSE_JS_KEY
+const PARSE_MASTER_KEY = process.env.PARSE_MASTER_KEY
+if (!PARSE_API_KEY) throw new Error("cannot have an empty PARSE_API_KEY")
+if (!PARSE_JS_KEY) throw new Error("cannot have an empty PARSE_JS_KEY")
+if (!PARSE_MASTER_KEY) throw new Error("cannot have an empty PARSE_MASTER_KEY")
 
 Parse = Npm.require("parse/node")
 
 class PeggParse {
   constructor() {
-    Parse.initialize(API_KEY, JS_KEY, MASTER_KEY)
+    Parse.initialize(PARSE_API_KEY, PARSE_JS_KEY, PARSE_MASTER_KEY)
   }
 
   test(cb) {
     console.log("testing parse")
+    // console.log("PARSE_API_KEY", PARSE_API_KEY)
+    // console.log("PARSE_JS_KEY", PARSE_JS_KEY)
+    // console.log("PARSE_MASTER_KEY", PARSE_MASTER_KEY)
     let TestObject = Parse.Object.extend("TestObject")
     let testObject = new TestObject()
     testObject.save({foo: "bar"})
