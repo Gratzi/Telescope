@@ -5,12 +5,10 @@ const ListContainer = SmartContainers.ListContainer;
 
 import Core from "meteor/nova:core";
 const ModalTrigger = Core.ModalTrigger;
-
-import PeggParse from 'meteor/pegg-cards:pegg-parse'
-parse = new PeggParse()
+const Messages = Core.Messages;
 
 const PeggCardPostsPage = ({document, currentUser}) => {
-  
+
   ({CommentsList, CommentsNew, PostsItem, PostsCategories, SocialShare, Vote, PostsStats, HeadTags, AccountsForm} = Telescope.components);
 
   const post = document;
@@ -21,11 +19,22 @@ const PeggCardPostsPage = ({document, currentUser}) => {
     height: '1em'
   };
 
+  const publishCard = function () {
+    Meteor.call("publishCardToParse", (error, result) => {
+      if (error) {
+        console.log(error)
+        Messages.flash(error.message, "error");
+      } else {
+        Messages.flash("Card published!", "success");
+      }
+    });
+  }
+
   return (
     <div className="post-page">
 
       <HeadTags url={Posts.getLink(post)} title={post.title} image={post.thumbnailUrl} />
-      
+
       <PostsItem post={post}/>
 
       <div className="post-body">{post.answer1}  &nbsp;&nbsp;
@@ -52,6 +61,8 @@ const PeggCardPostsPage = ({document, currentUser}) => {
           : ''
           }
       </div>
+
+      <a href="#" onClick={publishCard}>Publish Card</a>
 
       {/*<SocialShare url={ Posts.getLink(post) } title={ post.title }/>*/}
 

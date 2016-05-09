@@ -95,4 +95,3 @@ Posts.addField({
 Posts.removeField('url');
 Posts.removeField('body');
 Posts.removeField('thumbnailUrl');
-console.log('horse feathers!')
