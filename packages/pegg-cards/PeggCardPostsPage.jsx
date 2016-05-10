@@ -92,7 +92,10 @@ const PeggCardPostsPage = ({document, currentUser}) => {
           }
       </div>
 
-      <a href="#" onClick={publishCard}>Publish Card</a>
+      { currentUser.isAdmin ?
+        <a href="#" onClick={publishCard}>Publish Card</a>
+        : null
+      }
 
       {/*<SocialShare url={ Posts.getLink(post) } title={ post.title }/>*/}
 
