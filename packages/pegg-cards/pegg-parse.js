@@ -1,35 +1,29 @@
-const PARSE_API_KEY = process.env.PARSE_API_KEY
-const PARSE_JS_KEY = process.env.PARSE_JS_KEY
-const PARSE_MASTER_KEY = process.env.PARSE_MASTER_KEY
-if (!PARSE_API_KEY) throw new Error("cannot have an empty PARSE_API_KEY")
-if (!PARSE_JS_KEY) throw new Error("cannot have an empty PARSE_JS_KEY")
-if (!PARSE_MASTER_KEY) throw new Error("cannot have an empty PARSE_MASTER_KEY")
-
-Parse = Npm.require("parse/node")
+const SQUISHLE_PARSE_URL = process.env.SQUISHLE_PARSE_URL
+const SQUISHLE_PARSE_SECRET = process.env.SQUISHLE_PARSE_SECRET
+if (!SQUISHLE_PARSE_URL) throw new Error("cannot have an empty SQUISHLE_PARSE_URL")
+if (!SQUISHLE_PARSE_SECRET) throw new Error("cannot have an empty SQUISHLE_PARSE_SECRET")
 
 class PeggParse {
-  constructor() {
-    Parse.initialize(PARSE_API_KEY, PARSE_JS_KEY, PARSE_MASTER_KEY)
-  }
 
   test(card, cb) {
-    console.log("testing parse")
-    // console.log("PARSE_API_KEY", PARSE_API_KEY)
-    // console.log("PARSE_JS_KEY", PARSE_JS_KEY)
-    // console.log("PARSE_MASTER_KEY", PARSE_MASTER_KEY)
-    let TestObject = Parse.Object.extend("TestObject")
-    let testObject = new TestObject()
-    testObject.save({foo: "bar"})
-    .fail(function (error) {
-      console.error('OMG fail sauce')
-      console.error(error)
-      cb(error)
-    })
-    .then(function(object) {
-      console.log("yay! it worked")
-      console.log(object)
-      cb(null, object)
-    })
+
+    HTTP.call( 'POST', SQUISHLE_PARSE_URL+"/card", {
+      data: {
+        secret: SQUISHLE_PARSE_SECRET,
+        card: card
+      }
+    }, function(err, result) {
+      if (!err) {
+        console.error('OMG fail sauce')
+        console.error(err)
+        cb(err);
+      }
+      else {
+        console.log("yay! it worked")
+        console.log(result)
+        cb(null, result);
+      }
+    });
   }
 }
 

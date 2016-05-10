@@ -22,7 +22,24 @@ const PeggCardPostsPage = ({document, currentUser}) => {
   const publishCard = function () {
     card = {
       question: post.title,
-      choices: 'asdf'
+      choices: [
+        {
+          text: post.answer1,
+          gifId: post.gif1.split(/[-]+/).pop()
+        },
+        {
+          text: post.answer2,
+          gifId: post.gif2.split(/[-]+/).pop()
+        },
+        {
+          text: post.answer3,
+          gifId: post.gif3.split(/[-]+/).pop()
+        },
+        {
+          text: post.answer4,
+          gifId: post.gif4.split(/[-]+/).pop()
+        }
+      ]
     }
     Meteor.call("publishCardToParse", card, (error, result) => {
       if (error) {
