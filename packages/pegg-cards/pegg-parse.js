@@ -12,18 +12,7 @@ class PeggParse {
         secret: SQUISHLE_PARSE_SECRET,
         card: card
       }
-    }, function(err, result) {
-      if (!err) {
-        console.error('OMG fail sauce')
-        console.error(err)
-        cb(err);
-      }
-      else {
-        console.log("yay! it worked")
-        console.log(result)
-        cb(null, result);
-      }
-    });
+    }, cb);
   }
 }
 
@@ -33,7 +22,13 @@ Meteor.methods({
   publishCardToParse: function (card) {
     if(Users.is.adminById(this.userId)) {
       let parseTestSync = Meteor.wrapAsync(parse.test, parse)
-      return parseTestSync(card)
+      try {
+        return parseTestSync(card)
+      } catch (err) {
+        console.error('OMG fail sauce')
+        console.error(err)
+        throw new Meteor.Error(err.response.statusCode, err.response.content, err)
+      }
     }
   }
 })
