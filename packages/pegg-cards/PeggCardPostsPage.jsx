@@ -18,6 +18,7 @@ const PeggCardPostsPage = ({document, currentUser}) => {
     top: '-3px',
     height: '1em'
   };
+  const cardPreviewUrl = "http://pegg.us/" + post.cardId
 
   const fail = function (message) {
     Messages.flash(message, "error");
@@ -50,11 +51,14 @@ const PeggCardPostsPage = ({document, currentUser}) => {
         }
       ]
     }
-    Meteor.call("publishCardToParse", card, (error, result) => {
+    Meteor.call("parsePublishCard", card, (error, result) => {
       if (error) {
         console.log(error)
         Messages.flash(error.message, "error");
       } else {
+        Meteor.call("posts.edit", post._id, {
+          cardId: result.data.cardId
+        });
         Messages.flash("Card published!", "success");
       }
     });
@@ -93,9 +97,14 @@ const PeggCardPostsPage = ({document, currentUser}) => {
       </div>
 
       { currentUser.isAdmin ?
-        <a href="#" onClick={publishCard}>Publish Card</a>
+        <div className="post-body">
+          <a href="#" onClick={publishCard}>Publish Card</a>
+        </div>
         : null
       }
+      <div className="post-body">
+        <a href={ cardPreviewUrl }>{ post.cardId }</a>
+      </div>
 
       {/*<SocialShare url={ Posts.getLink(post) } title={ post.title }/>*/}
 

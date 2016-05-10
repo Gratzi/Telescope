@@ -5,7 +5,7 @@ if (!SQUISHLE_PARSE_SECRET) throw new Error("cannot have an empty SQUISHLE_PARSE
 
 class PeggParse {
 
-  test(card, cb) {
+  publishCard(card, cb) {
 
     HTTP.call( 'POST', SQUISHLE_PARSE_URL+"/card", {
       data: {
@@ -19,11 +19,11 @@ class PeggParse {
 parse = new PeggParse()
 
 Meteor.methods({
-  publishCardToParse: function (card) {
+  parsePublishCard: function (card) {
     if(Users.is.adminById(this.userId)) {
-      let parseTestSync = Meteor.wrapAsync(parse.test, parse)
+      let publishCardSync = Meteor.wrapAsync(parse.publishCard, parse)
       try {
-        return parseTestSync(card)
+        return publishCardSync(card)
       } catch (err) {
         console.error('OMG fail sauce')
         console.error(err)
