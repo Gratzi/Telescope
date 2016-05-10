@@ -20,7 +20,11 @@ const PeggCardPostsPage = ({document, currentUser}) => {
   };
 
   const publishCard = function () {
-    Meteor.call("publishCardToParse", (error, result) => {
+    card = {
+      question: post.title,
+      choices: 'asdf'
+    }
+    Meteor.call("publishCardToParse", card, (error, result) => {
       if (error) {
         console.log(error)
         Messages.flash(error.message, "error");

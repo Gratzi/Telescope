@@ -12,7 +12,7 @@ class PeggParse {
     Parse.initialize(PARSE_API_KEY, PARSE_JS_KEY, PARSE_MASTER_KEY)
   }
 
-  test(cb) {
+  test(card, cb) {
     console.log("testing parse")
     // console.log("PARSE_API_KEY", PARSE_API_KEY)
     // console.log("PARSE_JS_KEY", PARSE_JS_KEY)
@@ -36,10 +36,10 @@ class PeggParse {
 parse = new PeggParse()
 
 Meteor.methods({
-  publishCardToParse: function () {
+  publishCardToParse: function (card) {
     if(Users.is.adminById(this.userId)) {
       let parseTestSync = Meteor.wrapAsync(parse.test, parse)
-      return parseTestSync()
+      return parseTestSync(card)
     }
   }
 })
