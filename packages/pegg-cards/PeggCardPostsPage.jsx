@@ -20,24 +20,25 @@ const PeggCardPostsPage = ({document, currentUser}) => {
   };
 
   const publishCard = function () {
+    gifIdPattern = /[\/-]([^\/?-]+)($|\?)/
     card = {
       question: post.title,
       choices: [
         {
           text: post.answer1,
-          gifId: post.gif1.split(/[-]+/).pop()
+          gifId: gifIdPattern.exec(post.gif1) ? gifIdPattern.exec(post.gif1)[1] : null
         },
         {
           text: post.answer2,
-          gifId: post.gif2.split(/[-]+/).pop()
+          gifId: gifIdPattern.exec(post.gif2) ? gifIdPattern.exec(post.gif1)[1] : null
         },
         {
           text: post.answer3,
-          gifId: post.gif3.split(/[-]+/).pop()
+          gifId: gifIdPattern.exec(post.gif3) ? gifIdPattern.exec(post.gif3)[1] : null
         },
         {
           text: post.answer4,
-          gifId: post.gif4.split(/[-]+/).pop()
+          gifId: gifIdPattern.exec(post.gif4) ? gifIdPattern.exec(post.gif4)[1] : null
         }
       ]
     }
