@@ -57,7 +57,7 @@ const PeggCardPostsPage = ({document, currentUser}) => {
         Messages.flash(error.message, "error");
       } else {
         Meteor.call("posts.edit", post._id, {
-          cardId: result.data.cardId
+          $set: { cardId: result.data.cardId }
         });
         Messages.flash("Card published!", "success");
       }
