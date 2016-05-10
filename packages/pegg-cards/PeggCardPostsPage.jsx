@@ -19,10 +19,18 @@ const PeggCardPostsPage = ({document, currentUser}) => {
     height: '1em'
   };
 
+  const fail = function (message) {
+    Messages.flash(message, "error");
+  }
+
   const publishCard = function () {
+    if (post.categoriesArray.length != 1)
+      return fail("There should be one and only one category")
+    deck = post.categoriesArray[0].name
     gifIdPattern = /[\/-]([^\/?-]+)($|\?)/
     card = {
       question: post.title,
+      deck: deck,
       choices: [
         {
           text: post.answer1,
@@ -30,7 +38,7 @@ const PeggCardPostsPage = ({document, currentUser}) => {
         },
         {
           text: post.answer2,
-          gifId: gifIdPattern.exec(post.gif2) ? gifIdPattern.exec(post.gif1)[1] : null
+          gifId: gifIdPattern.exec(post.gif2) ? gifIdPattern.exec(post.gif2)[1] : null
         },
         {
           text: post.answer3,
