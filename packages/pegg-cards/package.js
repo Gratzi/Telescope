@@ -19,8 +19,9 @@ Package.onUse(function(api) {
     'nova:users@0.26.0-nova'
     ]);
   api.mainModule('pegg-cards.js');
-  api.addFiles('PeggCardPostsPage.jsx', 'client');
-  api.addFiles('pegg-parse.js', 'server');
+  api.addFiles(['PeggCardPostsPage.jsx', 'filterPosts.js'], 'client');
+  api.addFiles(['pegg-parse.js'], 'server');
+  // api.addFiles('filterPosts.js', ['client', 'server']);
 });
 
 Package.onTest(function(api) {
