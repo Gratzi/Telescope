@@ -29,23 +29,29 @@ const PeggCardPostsPage = ({document, currentUser}) => {
       return fail("There should be one and only one category")
     deck = post.categoriesArray[0].name
     gifIdPattern = /[\/-]([^\/?-]+)($|\?)/
+    post.choices = post.choices || []
     card = {
+      id: post.cardId,
       question: post.title,
       deck: deck,
       choices: [
         {
+          id: post.choices[0],
           text: post.answer1,
           gifId: gifIdPattern.exec(post.gif1) ? gifIdPattern.exec(post.gif1)[1] : null
         },
         {
+          id: post.choices[1],
           text: post.answer2,
           gifId: gifIdPattern.exec(post.gif2) ? gifIdPattern.exec(post.gif2)[1] : null
         },
         {
+          id: post.choices[2],
           text: post.answer3,
           gifId: gifIdPattern.exec(post.gif3) ? gifIdPattern.exec(post.gif3)[1] : null
         },
         {
+          id: post.choices[3],
           text: post.answer4,
           gifId: gifIdPattern.exec(post.gif4) ? gifIdPattern.exec(post.gif4)[1] : null
         }
@@ -57,7 +63,10 @@ const PeggCardPostsPage = ({document, currentUser}) => {
         Messages.flash(error.message, "error");
       } else {
         Meteor.call("posts.edit", post._id, {
-          $set: { cardId: result.data.cardId }
+          $set: {
+            cardId: result.data.cardId,
+            choices: result.data.choices
+          }
         });
         Messages.flash("Card published!", "success");
       }
@@ -102,19 +111,22 @@ const PeggCardPostsPage = ({document, currentUser}) => {
         </div>
         : null
       }
-      <div className="post-body">
-        <a href={ cardPreviewUrl }>{ post.cardId }</a>
-      </div>
+      { post.cardId ?
+        <div className="post-body">
+          <a href={ cardPreviewUrl } target="_blank">View Card in Pegg</a>
+        </div>
+        : null
+      }
 
       {/*<SocialShare url={ Posts.getLink(post) } title={ post.title }/>*/}
 
       <div className="comments-thread">
         <h4 className="comments-thread-title">Comments</h4>
-        <ListContainer 
-          collection={Comments} 
-          publication="comments.list" 
-          selector={{postId: post._id}} 
-          terms={{postId: post._id, view: "postComments"}} 
+        <ListContainer
+          collection={Comments}
+          publication="comments.list"
+          selector={{postId: post._id}}
+          terms={{postId: post._id, view: "postComments"}}
           limit={0}
           parentProperty="parentCommentId"
           joins={Comments.getJoins()}

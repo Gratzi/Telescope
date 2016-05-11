@@ -5,6 +5,28 @@
 export const name = 'pegg-cards';
 
 Posts.addField({
+  fieldName: 'cardId',
+  fieldSchema: {
+    type: String,
+    insertableIf: Users.is.admin,
+    editableIf: Users.is.admin,
+    optional: true,
+    publish: true
+  }
+});
+
+Posts.addField({
+  fieldName: 'choices',
+  fieldSchema: {
+    type: [String],
+    insertableIf: Users.is.admin,
+    editableIf: Users.is.admin,
+    optional: true,
+    publish: true
+  }
+});
+
+Posts.addField({
   fieldName: 'answer1',
   fieldSchema: {
     type: String,
