@@ -42,3 +42,4 @@ publish_package.sh
 node_modules
 
 bundle.tar.gz
+Session.vim
