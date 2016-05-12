@@ -1,9 +1,15 @@
 function filterPostsByUser (parameters) {
-  if (!Users.is.admin(Meteor.user())) {
+  user = Meteor.user()
+  if (user) {
+    userId = user._id
+  } else {
+    userId = 'nobody'
+  }
+  if (!Users.is.admin(user)) {
     var parameters = Telescope.utils.deepExtend(true, parameters, {
       selector: {
         $and: [
-          {userId: Meteor.user()._id}
+          {userId: userId}
         ]
       }
     });
